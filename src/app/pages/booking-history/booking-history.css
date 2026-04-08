@@ -2,24 +2,59 @@
   padding: 40px 60px;
   background: #f8fafc;
   min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
 }
 
-h2 {
-  margin-bottom: 20px;
+/* HEADER */
+.header h1 {
+  font-size: 30px;
+  font-weight: 600;
+  color: #286359;
+}
+
+.header p {
+  color: #64748b;
+  margin-top: 5px;
+  margin-bottom: 25px;
+}
+
+/* TABLE CARD */
+.table-card {
+  background: white;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
 }
 
 /* TABLE */
 table {
   width: 100%;
-  background: white;
-  border-radius: 10px;
-  overflow: hidden;
+  border-collapse: collapse;
+}
+
+/* HEADER ROW */
+th {
+  text-align: left;
+  font-weight: 600;
+  background: #f1f5f9;
+  padding: 14px;
+}
+
+/* ROWS */
+td {
+  padding: 14px;
+  border-top: 1px solid #f1f5f9;
+}
+
+/* HOVER ROW */
+tr:hover td {
+  background: rgba(40, 99, 89, 0.03);
 }
 
 /* STATUS BADGES */
 .status {
-  padding: 5px 10px;
-  border-radius: 8px;
+  padding: 6px 12px;
+  border-radius: 20px;
   font-size: 12px;
   font-weight: 500;
 }
@@ -37,4 +72,19 @@ table {
 .status.cancelled {
   background: #fee2e2;
   color: #dc2626;
+}
+
+/* BUTTON */
+.danger-btn {
+  border: 1px solid #dc2626;
+  color: #dc2626;
+  background: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.danger-btn:hover {
+  background: rgba(220, 38, 38, 0.08);
 }

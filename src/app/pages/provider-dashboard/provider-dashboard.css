@@ -1,0 +1,90 @@
+.dashboard {
+  padding: 40px 60px;
+  background: #f8fafc;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* HEADER */
+.header h1 {
+  font-size: 30px;
+  font-weight: 600;
+  color: #286359;
+}
+
+.header p {
+  color: #64748b;
+  margin-top: 5px;
+  margin-bottom: 30px;
+}
+
+/* GRID */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* CARD */
+.card {
+  padding: 25px;
+  border-radius: 14px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  transition: 0.25s ease;
+}
+
+/* HOVER (brand touch) */
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #286359;
+  box-shadow: 0 10px 30px rgba(40, 99, 89, 0.1);
+}
+
+/* ICON */
+.card-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+/* TEXT */
+.card h3 {
+  margin-bottom: 8px;
+  color: #0f172a;
+}
+
+.card p {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 20px;
+}
+
+/* PRIMARY BUTTON */
+.primary-btn {
+  width: 100%;
+  background: #286359;
+  color: white;
+  border-radius: 8px;
+  height: 42px;
+  border: none;
+  transition: 0.2s ease;
+}
+
+.primary-btn:hover {
+  background: #3f7d71;
+}
+
+/* SECONDARY BUTTON */
+.secondary-btn {
+  width: 100%;
+  border: 1px solid #286359;
+  color: #286359;
+  background: white;
+  border-radius: 8px;
+  height: 42px;
+  transition: 0.2s ease;
+}
+
+.secondary-btn:hover {
+  background: rgba(40, 99, 89, 0.08);
+}

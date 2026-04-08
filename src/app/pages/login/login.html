@@ -1,14 +1,9 @@
 <div class="container">
 
-  <!-- LEFT SIDE -->
-  <div class="left">
-    <h1>FixiePixie</h1>
-    <p>Your smart home service partner</p>
-  </div>
 
   <!-- RIGHT SIDE -->
   <div class="right">
-    <mat-card style="background-color:#faf9fd;box-shadow: none;" class="login-card">
+    <mat-card style="background-color:transparent;box-shadow: none;" class="login-card">
       <h2>Login to your account</h2>
 
       <mat-form-field appearance="outline" class="full-width">
@@ -21,9 +16,21 @@
         <input matInput type="password">
       </mat-form-field>
 
-      <button mat-raised-button color="primary" class="full-width" routerLink="/dashboard">
+      <!-- <button mat-raised-button color="primary" class="full-width" routerLink="/dashboard">
         Login
-      </button>
+      </button> -->
+
+<div class="btn-group">
+
+  <button mat-flat-button class="primary-btn" (click)="loginAsCustomer()">
+    Login as Customer
+  </button>
+
+  <button mat-stroked-button class="secondary-btn" (click)="loginAsProvider()">
+    Login as Provider
+  </button>
+
+</div>
 
       <p class="link">
         New here? <a routerLink="/register">Create account</a>

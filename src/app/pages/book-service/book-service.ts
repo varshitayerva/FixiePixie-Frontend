@@ -7,12 +7,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { RouterModule } from '@angular/router';
-import { Navbar } from '../../navbar/navbar';
 
 
 @Component({
   selector: 'app-book-service',
-  imports: [MatCardModule,MatFormFieldModule,MatInputModule,MatButtonModule,MatSelectModule,MatDatepickerModule,MatNativeDateModule,RouterModule,Navbar],
+  imports: [MatCardModule,MatFormFieldModule,MatInputModule,MatButtonModule,MatSelectModule,MatDatepickerModule,MatNativeDateModule,RouterModule],
   templateUrl: './book-service.html',
   styleUrl: './book-service.css',
 })

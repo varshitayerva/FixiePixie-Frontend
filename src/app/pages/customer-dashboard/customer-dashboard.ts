@@ -14,14 +14,15 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrl: './customer-dashboard.css',
 })
 export class Dashboard {
-  constructor(
-    private router: Router,
-    private cookieService: CookieService
-  ) { }
-  ngOnInit() {
-    const role = this.cookieService.get('role');
-    if (role !== 'CUSTOMER') {
-      this.router.navigate(['/']);
-    }
+  constructor(private router: Router) {}
+
+  selectService(service: string, price: number) {
+    this.router.navigate(['/booking'], {
+      state: {
+        service,
+        price,
+        description: 'Professional home service'
+      }
+    });
   }
 }

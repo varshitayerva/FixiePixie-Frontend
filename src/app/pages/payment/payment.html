@@ -2,38 +2,43 @@
 
 <div class="payment-page">
 
-  <!-- LEFT -->
+  <!-- SUMMARY -->
   <div class="summary-card">
 
     <h2>Booking Summary</h2>
 
-    <div class="service-info">
-      <p><strong>Service:</strong> Electrician</p>
-      <p><strong>Date:</strong> 12 April 2026</p>
-      <p><strong>Price:</strong> ₹499</p>
+    <div class="summary-item">
+      <p>Service</p>
+      <strong>{{booking.service}}</strong>
+    </div>
+
+    <div class="summary-item">
+      <p>Date</p>
+      <strong>{{booking.date}}</strong>
+    </div>
+
+    <div class="summary-item">
+      <p>Time</p>
+      <strong>{{booking.slot}}</strong>
+    </div>
+
+    <div class="price">
+      ₹{{booking.price}}
     </div>
 
   </div>
 
-  <!-- RIGHT -->
+  <!-- PAYMENT -->
   <div class="payment-card">
 
-    <h2>Payment Details</h2>
+    <h2>Payment Method</h2>
 
-    <div class="payment-method">
-      <label>
-        <input type="radio" name="payment"> UPI
-      </label>
-      <label>
-        <input type="radio" name="payment"> Card
-      </label>
-      <label>
-        <input type="radio" name="payment"> Cash
-      </label>
-    </div>
+    <div class="method">UPI</div>
+    <div class="method">Card</div>
+    <div class="method">Cash</div>
 
-    <button class="primary-btn">
-      Pay Now
+    <button class="primary-btn" (click)="pay()">
+      Pay ₹{{booking.price}}
     </button>
 
   </div>

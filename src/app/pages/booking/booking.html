@@ -2,28 +2,42 @@
 
 <div class="booking-page">
 
-  <!-- SERVICE DETAILS -->
-  <div class="card">
-    <h2>{{service?.name}}</h2>
-    <p>{{service?.description}}</p>
-    <h3>₹{{service?.price}}</h3>
+  <!-- LEFT -->
+  <div class="service-card">
+
+    <p class="label">Selected Service</p>
+
+    <h2>{{service?.service}}</h2>
+    <p class="desc">{{service?.description}}</p>
+
+    <div class="price-box">
+      ₹{{service?.price}}
+    </div>
+
   </div>
 
-  <!-- DATE + SLOT -->
-  <div class="card">
+  <!-- RIGHT -->
+  <div class="form-card">
 
-    <h2>Select Date & Time</h2>
+    <h2>Choose Date & Time</h2>
 
-    <input type="date" [(ngModel)]="selectedDate">
+    <div class="input-group">
+      <label>Date</label>
+      <input type="date" [(ngModel)]="date">
+    </div>
 
-    <div class="slots">
-      <button (click)="selectedSlot='Morning'">Morning</button>
-      <button (click)="selectedSlot='Afternoon'">Afternoon</button>
-      <button (click)="selectedSlot='Evening'">Evening</button>
+    <div class="input-group">
+      <label>Time Slot</label>
+      <select [(ngModel)]="slot">
+        <option value="">Select Slot</option>
+        <option>Morning (9AM - 12PM)</option>
+        <option>Afternoon (12PM - 3PM)</option>
+        <option>Evening (3PM - 6PM)</option>
+      </select>
     </div>
 
     <button class="primary-btn" (click)="bookService()">
-      Book Service
+      Continue to Payment →
     </button>
 
   </div>

@@ -1,0 +1,32 @@
+<app-navbar></app-navbar>
+
+<div class="add-service-page">
+
+  <div class="form-card">
+
+    <h1>Add New Service</h1>
+    <p class="subtitle">Create and manage your services</p>
+
+    <div class="input-group">
+      <label>Service Name</label>
+      <input type="text" [(ngModel)]="serviceName" placeholder="e.g. AC Repair">
+    </div>
+
+    <div class="input-group">
+      <label>Price (₹)</label>
+      <input type="number" [(ngModel)]="price">
+    </div>
+
+    <div class="input-group">
+      <label>Description</label>
+      <textarea [(ngModel)]="description" rows="4"></textarea>
+    </div>
+
+    <button class="primary-btn" (click)="addService()">
+      Add Service
+    </button>
+
+  </div>
+
+</div>
+<p>add-service works!</p>

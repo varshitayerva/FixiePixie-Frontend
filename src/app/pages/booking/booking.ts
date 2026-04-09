@@ -1,40 +1,50 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Router } from "@angular/router";
 import { Navbar } from '../../navbar/navbar';
+
 @Component({
   selector: 'app-booking',
+  standalone: true,
   imports: [FormsModule,Navbar],
   templateUrl: './booking.html',
-  styleUrl: './booking.css',
+  styleUrls: ['./booking.css']
 })
-export class Booking {
+export class BookingPage {
+
   service: any;
+  date: string = '';
+  slot: string = '';
 
-  selectedDate: string = '';
-  selectedSlot: string = '';
+  constructor(private router: Router) {}
 
-  constructor(private router: Router) {
-    const nav = this.router.getCurrentNavigation();
-    this.service = nav?.extras?.state?.['service'];
+  ngOnInit() {
+    this.service = history.state;
   }
 
   bookService() {
 
-    const booking = {
-      serviceId: this.service.id,
-      serviceName: this.service.name,
+    const bookingData = {
+      service: this.service.service,
       price: this.service.price,
-      date: this.selectedDate,
-      slot: this.selectedSlot,
+      description: this.service.description,
+      date: this.date,
+      slot: this.slot,
       status: 'PENDING'
     };
 
-    console.log('Booking Created:', booking);
+    // GET existing bookings
+    let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
 
-    // redirect to payment with booking
+    // ADD new booking
+    bookings.push(bookingData);
+
+    // SAVE back
+    localStorage.setItem('bookings', JSON.stringify(bookings));
+
+    // NAVIGATE to payment
     this.router.navigate(['/payment'], {
-      state: { booking }
+      state: bookingData
     });
   }
 }

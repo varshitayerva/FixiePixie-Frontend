@@ -43,12 +43,12 @@
         <p class="service-title">What are you looking for?</p>
         <div class="service-grid">
 
-          <div class="service-item" routerLink="/payment">
+          <div class="service-item" (click)="selectService('Electrician', 499)" routerLink="/payment">
             <span class="material-icons">electrical_services</span>
             <p>Electrician</p>
           </div>
 
-          <div class="service-item" routerLink="/payment">
+          <div class="service-item" routerLink="/payment" (click)="selectService('Plumber', 399)">
             <span class="material-icons">plumbing</span>
             <p>Plumber</p>
           </div>

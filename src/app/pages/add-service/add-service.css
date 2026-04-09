@@ -1,51 +1,34 @@
-.booking-page {
+.add-service-page {
   display: flex;
-  gap: 40px;
-  padding: 60px 80px;
+  justify-content: center;
+  align-items: center;
+  padding: 60px;
   background: #f6f7f9;
   min-height: 100vh;
 }
 
-/* CARDS */
-.service-card,
+/* FORM CARD */
 .form-card {
-  flex: 1;
+  width: 420px;
   background: white;
-  padding: 35px;
+  padding: 40px;
   border-radius: 24px;
-  box-shadow: 0 6px 25px rgba(0,0,0,0.04);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.04);
 }
 
-/* LEFT CARD */
-.label {
-  font-size: 13px;
-  color: #6b7280;
-  margin-bottom: 10px;
-}
-
-.service-card h2 {
+/* TITLE */
+h1 {
   font-size: 28px;
-  font-weight: 700;
   color: #2D5A50;
+  margin-bottom: 5px;
 }
 
-.desc {
+.subtitle {
   color: #6b7280;
-  margin: 10px 0 20px;
+  margin-bottom: 25px;
 }
 
-.price-box {
-  font-size: 26px;
-  font-weight: 800;
-  color: #111827;
-}
-
-/* FORM */
-.form-card h2 {
-  color: #2D5A50;
-  margin-bottom: 20px;
-}
-
+/* INPUT GROUP */
 .input-group {
   display: flex;
   flex-direction: column;
@@ -57,8 +40,7 @@
   margin-bottom: 6px;
 }
 
-input,
-select {
+input, textarea {
   padding: 12px;
   border-radius: 10px;
   border: 1px solid #e5e7eb;
@@ -72,7 +54,6 @@ select {
   color: white;
   border-radius: 12px;
   height: 45px;
-  margin-top: 10px;
   border: none;
   transition: 0.2s;
 }

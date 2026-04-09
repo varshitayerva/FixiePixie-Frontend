@@ -22,6 +22,7 @@ export const routes: Routes = [
   { path: 'bookservice', component: BookService, canActivate: [authGuard] },
   { path: 'bookhistory', component: BookingHistory, canActivate: [authGuard] },
 
+  // 🔒 PROVIDER ROUTES
   { path: 'provider-dashboard', component: ProviderDashboard, canActivate: [authGuard] },
   { path: 'add-service', component: AddService, canActivate: [authGuard] },
 

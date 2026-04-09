@@ -19,10 +19,5 @@ export class ProviderDashboard {
     private router: Router,
     private cookieService: CookieService
   ) { }
-  ngOnInit() {
-    const role = this.cookieService.get('role');
-    if (role !== 'PROVIDER') {
-      this.router.navigate(['/']);
-    }
-  }
+  
 }

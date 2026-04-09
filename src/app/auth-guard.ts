@@ -5,12 +5,17 @@ import { Router } from '@angular/router';
 export const authGuard: CanActivateFn = () => {
 
   const router = inject(Router);
+
+  if (typeof window === 'undefined') return true;
+
   const token = localStorage.getItem('token');
 
-  if (token) {
-    return true;
+  console.log("GUARD TOKEN:", token);
+
+  if (!token) {
+    router.navigateByUrl('/');
+    return false;
   }
 
-  router.navigate(['/']);
-  return false;
+  return true;
 };

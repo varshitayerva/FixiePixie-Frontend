@@ -60,10 +60,13 @@ export class Login {
 
           localStorage.setItem('role', role);
 
+          console.log("role"+role)
           if (role === 'ROLE_USER') {
             this.router.navigate(['/customer-dashboard']);
-          } else {
+          } else if(role === 'ROLE_ADMIN') {
+            console.log("Help")
             this.router.navigate(['/provider-dashboard']);
+            console.log("Help")
           }
         },
         error: (err) => {

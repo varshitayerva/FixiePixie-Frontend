@@ -18,6 +18,16 @@
     </div>
 
     <div class="input-group">
+  <label>Category</label>
+  <select [(ngModel)]="category">
+    <option value="">Select Category</option>
+    <option value="HOME_SERVICE">Home Service</option>
+    <option value="CLEANING">Cleaning</option>
+    <option value="ELECTRICAL">Electrical</option>
+  </select>
+</div>
+
+    <div class="input-group">
       <label>Description</label>
       <textarea [(ngModel)]="description" rows="4"></textarea>
     </div>
@@ -29,4 +39,3 @@
   </div>
 
 </div>
-<p>add-service works!</p>

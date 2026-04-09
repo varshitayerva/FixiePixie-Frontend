@@ -8,26 +8,27 @@ import { ProviderDashboard } from './pages/provider-dashboard/provider-dashboard
 import { Payment } from './pages/payment/payment';
 import { BookingPage } from './pages/booking/booking';
 import { AddService } from './pages/add-service/add-service';
+import { authGuard } from './auth-guard';
+
 
 export const routes: Routes = [
-    {path:'', component:Login},
-    {path:'register', component:Register},
 
-    //Customer Flow
-    {path:'customer-dashboard',component: Dashboard},
-    {path:'bookservice',component:BookService},
-    {path:'bookhistory',component:BookingHistory},
+  // PUBLIC
+  { path: '', component: Login },
+  { path: 'register', component: Register },
 
-    //Provider Flow
-    {path:'provider-dashboard',component:ProviderDashboard},
-    {path:'add-service',component:AddService},
+  // 🔒 CUSTOMER ROUTES
+  { path: 'customer-dashboard', component: Dashboard, canActivate: [authGuard] },
+  { path: 'bookservice', component: BookService, canActivate: [authGuard] },
+  { path: 'bookhistory', component: BookingHistory, canActivate: [authGuard] },
 
-    
-    //Payment Flow
-    {path: 'booking', component:BookingPage},
-    { path: 'payment', component: Payment },
+  { path: 'provider-dashboard', component: ProviderDashboard, canActivate: [authGuard] },
+  { path: 'add-service', component: AddService, canActivate: [authGuard] },
 
-    //fallback
-    {path:'**',redirectTo: ''},
+  // 🔒 PAYMENT
+  { path: 'booking', component: BookingPage, canActivate: [authGuard] },
+  { path: 'payment', component: Payment, canActivate: [authGuard] },
 
+  // FALLBACK
+  { path: '**', redirectTo: '' }
 ];

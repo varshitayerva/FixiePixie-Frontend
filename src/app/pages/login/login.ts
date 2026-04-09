@@ -1,40 +1,80 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Router, RouterModule } from '@angular/router';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';   
 import { MatButtonModule } from '@angular/material/button'; 
-import { RouterModule } from '@angular/router';            
-import { Role } from '../../core/role';
-import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
+  templateUrl: './login.html',
+  styleUrls: ['./login.css'],
   imports: [
     MatCardModule,
     MatFormFieldModule,
-    MatInputModule,     
-    MatButtonModule,    
-    RouterModule      
-  ],
-  templateUrl: './login.html',
-  styleUrls: ['./login.css'] 
+    MatInputModule,
+    MatButtonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    HttpClientModule
+  ]
 })
 export class Login {
-  constructor(private role: Role, private router: Router, private cookieService: CookieService) {}
-  
 
-loginAsCustomer() {
-  
-  // localStorage.setItem('role', 'CUSTOMER');
-  this.cookieService.set('role', 'CUSTOMER', 1, '/');
-  this.router.navigate(['/customer-dashboard']);
-}
+  loginForm: FormGroup;
 
-loginAsProvider() {
-  // localStorage.setItem('role', 'PROVIDER');
-  this.cookieService.set('role', 'PROVIDER', 1, '/');
-  this.router.navigate(['/provider-dashboard']);
-}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router
+  ) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+  }
+
+  onSubmit() {
+
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    const payload = this.loginForm.value;
+
+    this.http.post('http://localhost:2002/api/users/login', payload)
+      .subscribe({
+        next: (res: any) => {
+
+          console.log("LOGIN SUCCESS", res);
+
+          const token = res.data.token;
+          const role = res.data.role;
+
+          localStorage.setItem('token', token);
+
+          localStorage.setItem('role', role);
+
+          if (role === 'ROLE_USER') {
+            this.router.navigate(['/customer-dashboard']);
+          } else {
+            this.router.navigate(['/provider-dashboard']);
+          }
+        },
+        error: (err) => {
+          console.error("LOGIN ERROR", err);
+
+          if (err.error?.message) {
+            alert(err.error.message);
+          } else {
+            alert("Invalid email or password");
+          }
+        }
+      });
+  }
 }

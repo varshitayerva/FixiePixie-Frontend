@@ -1,86 +1,66 @@
-<!-- <div class="container">
-
-  
-  <div class="left">
-    <h1>FixiePixie</h1>
-    <p>Your smart home service partner</p>
-  </div>
-
-  
-    <div class="right">
-        <mat-card style="background-color:#faf9fd;box-shadow: none;" class="register-card">
-        <h2>Sign Up</h2>
-
-        <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Name</mat-label>
-            <input matInput>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Email</mat-label>
-            <input matInput type="email">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Password</mat-label>
-            <input matInput type="password">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Confirm Password</mat-label>
-            <input matInput type="password">
-        </mat-form-field>
-
-        <button mat-raised-button color="primary" class="full-width">
-            Register
-        </button>
-
-        <p class="link">
-            Already have an account?
-            <a routerLink="/">Login</a>
-        </p>
-        </mat-card>
-    </div>
-
-</div> -->
-
 <div class="container">
-
   <div class="right">
-    <mat-card style="background-color:transparent; box-shadow: none;" class="register-card">
+
+    <mat-card class="register-card">
+
       <h2>Create account</h2>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Name</mat-label>
-        <input matInput placeholder="Full Name">
-      </mat-form-field>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Email</mat-label>
-        <input matInput type="email" placeholder="email@example.com">
-      </mat-form-field>
+        <!-- NAME -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" placeholder="Full Name">
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" placeholder="Create password">
-      </mat-form-field>
+        <!-- EMAIL -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email">
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Confirm Password</mat-label>
-        <input matInput type="password" placeholder="Repeat password">
-      </mat-form-field>
+        <!-- PASSWORD -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password">
+        </mat-form-field>
 
-      <div class="btn-group">
-        <button mat-flat-button class="primary-btn">
-          Register
-        </button>
-      </div>
+        <!-- ADDRESS -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="address">
+        </mat-form-field>
+
+        <!-- PHONE NUMBER -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Phone Number</mat-label>
+          <input matInput type="number" formControlName="number">
+        </mat-form-field>
+
+        <!-- ROLE -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Role</mat-label>
+          <mat-select formControlName="role">
+            <mat-option value="ROLE_USER">Customer</mat-option>
+<mat-option value="ROLE_ADMIN">Service Provider</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- BUTTON -->
+        <div class="btn-group">
+          <button mat-flat-button class="primary-btn" type="submit">
+            Register
+          </button>
+        </div>
+
+      </form>
 
       <p class="link">
         Already have an account? 
         <a routerLink="/login">Login</a>
       </p>
-    </mat-card>
-  </div>
 
+    </mat-card>
+
+  </div>
 </div>

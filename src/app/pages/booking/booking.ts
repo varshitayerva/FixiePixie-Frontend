@@ -1,18 +1,21 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Navbar } from '../../navbar/navbar';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http'; // 1. Add this
+import { HttpClient } from '@angular/common/http'; // 1. Add this
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-booking',
   standalone: true,
-  imports: [FormsModule, Navbar, CommonModule, HttpClientModule], // 2. Add HttpClientModule
+  imports: [FormsModule, Navbar, CommonModule], // 2. Add HttpClientModule
   templateUrl: './booking.html',
   styleUrls: ['./booking.css']
 })
 export class BookingPage implements OnInit {
+
+  private snackBar = inject(MatSnackBar);
   selectedService: any;
   bookingDate: string = '';
   selectedSlot: string = '';
@@ -41,14 +44,14 @@ export class BookingPage implements OnInit {
     const bookingRequestDTO = {
       userId: this.currentUserId,
       serviceId: this.selectedService.id, // Ensure this exists in your catalog data
-      date: this.bookingDate + 'T' + this.getSlotTime(this.selectedSlot), // Convert to LocalDateTime format
+      date: this.bookingDate,
       status: 'PENDING_PAYMENT',
       timeSlot: this.selectedSlot
     };
     console.log("DTO:", bookingRequestDTO);
 
     // 5. Call Backend
-    this.http.post<any>('http://localhost:2003/bookings', bookingRequestDTO)
+    this.http.post<any>('http://localhost:8081/bookings', bookingRequestDTO)
       .subscribe({
         next: (response) => {
           console.log("Aaaya")
@@ -69,8 +72,7 @@ export class BookingPage implements OnInit {
           this.router.navigate(['/payment'], { state: finalBooking });
         },
         error: (err) => {
-          console.error('Failed to create booking', err);
-          alert('Could not initiate booking. Please try again.');
+          this.snackBar.open("Could not initiate booking. Please try again.", 'Close', {duration: 3000});
         }
       });
   }

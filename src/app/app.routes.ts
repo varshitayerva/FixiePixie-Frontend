@@ -33,6 +33,8 @@ export const routes: Routes = [
   { path: 'booking', component: BookingPage, canActivate: [authGuard] },
   { path: 'payment', component: PaymentPage, canActivate: [authGuard] },
 
+  {path:'profile', component:Profile, canActivate:[authGuard]},
+
   // FALLBACK
   { path: '**', redirectTo: '' }
 ];

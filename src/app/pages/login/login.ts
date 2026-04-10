@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';   
 import { MatButtonModule } from '@angular/material/button'; 
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -20,11 +21,10 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule,
     RouterModule,
     ReactiveFormsModule,
-    HttpClientModule
   ]
 })
 export class Login {
-
+  private snackBar = inject(MatSnackBar);
   loginForm: FormGroup;
 
   constructor(
@@ -47,7 +47,7 @@ export class Login {
 
     const payload = this.loginForm.value;
 
-    this.http.post('http://localhost:2002/api/users/login', payload)
+    this.http.post('http://localhost:8081/api/users/login', payload)
       .subscribe({
         next: (res: any) => {
 
@@ -75,9 +75,9 @@ export class Login {
           console.error("LOGIN ERROR", err);
 
           if (err.error?.message) {
-            alert(err.error.message);
+            this.snackBar.open(err.error.message, 'Close', {duration: 3000});
           } else {
-            alert("Invalid email or password");
+            this.snackBar.open("Invalid email or password", 'Close', {duration: 3000});
           }
         }
       });

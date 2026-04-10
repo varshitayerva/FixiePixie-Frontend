@@ -29,7 +29,7 @@
 
 
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Navbar } from '../../navbar/navbar';
@@ -37,14 +37,14 @@ import { Navbar } from '../../navbar/navbar';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [HttpClientModule, RouterModule, CommonModule, Navbar],
+  imports: [RouterModule, CommonModule, Navbar],
   templateUrl: './customer-dashboard.html',
   styleUrl: './customer-dashboard.css'
 })
 export class Dashboard implements OnInit {
 
   services: any[] = [];
-
+  id:any;
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef, private router: Router) { }
 
   ngOnInit(): void {

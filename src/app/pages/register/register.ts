@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 
 import { MatCardModule } from '@angular/material/card';
@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';   
 import { MatButtonModule } from '@angular/material/button'; 
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -21,12 +22,12 @@ import { MatSelectModule } from '@angular/material/select';
     MatButtonModule,
     MatSelectModule,        
     RouterModule,
-    ReactiveFormsModule,
-    HttpClientModule
+    ReactiveFormsModule
   ]
 })
 export class Register {
 
+  private snackBar = inject(MatSnackBar);
   registerForm: FormGroup;
 
   constructor(
@@ -65,11 +66,11 @@ export class Register {
       role: formValue.role
     };
 
-    this.http.post('http://localhost:2002/api/users/register', payload)
+    this.http.post('http://localhost:8081/api/users/register', payload)
       .subscribe({
         next: (res) => {
           console.log("SUCCESS", res);
-          alert("Registered successfully");
+          this.snackBar.open("Registered successfully", 'Close', {duration: 3000});
 
           this.router.navigate(['/']);
         },
@@ -77,9 +78,9 @@ export class Register {
           console.error("ERROR", err);
 
           if (err.error?.message) {
-            alert(err.error.message);
+            this.snackBar.open(err.error.message, 'Close', {duration: 3000});
           } else {
-            alert("Registration failed");
+            this.snackBar.open(err.error.message, 'Close', {duration: 3000});
           }
         }
       });

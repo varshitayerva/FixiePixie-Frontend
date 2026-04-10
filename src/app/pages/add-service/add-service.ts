@@ -1,18 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Navbar } from '../../navbar/navbar';
 import { Router } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-
+import { HttpClient } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-add-service',
   standalone: true,
-  imports: [FormsModule, Navbar, HttpClientModule],
+  imports: [FormsModule, Navbar,MatSnackBarModule],
   templateUrl: './add-service.html',
   styleUrl: './add-service.css',
 })
 export class AddService {
-
+  private snackBar = inject(MatSnackBar);
   serviceName: string = '';
   price: number = 0;
   description: string = '';
@@ -26,7 +27,7 @@ export class AddService {
   addService() {
 
     if (!this.serviceName || !this.price || !this.description || !this.category) {
-      alert('Please fill all fields');
+      this.snackBar.open('Please fill all fields', 'Close', {duration: 3000});
       return;
     }
 
@@ -37,11 +38,11 @@ export class AddService {
       category: this.category
     };
 
-    this.http.post('http://localhost:8083/api/services', payload)
+    this.http.post('http://localhost:8081/api/services', payload)
       .subscribe({
         next: (res) => {
           console.log("SERVICE ADDED", res);
-          alert('Service Added Successfully ✅');
+          this.snackBar.open('Service Added Successfully ✅', 'Close', {duration: 3000});
 
           this.router.navigate(['/provider-dashboard']);
         },
@@ -49,9 +50,9 @@ export class AddService {
           console.error("ERROR", err);
 
           if (err.error?.message) {
-            alert(err.error.message);
+            this.snackBar.open(err.error.message, 'Close', {duration: 3000});
           } else {
-            alert("Failed to add service");
+            this.snackBar.open("Failed to add service", 'Close', {duration: 3000});
           }
         }
       });

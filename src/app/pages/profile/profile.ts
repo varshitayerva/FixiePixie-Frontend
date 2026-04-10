@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef, Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Navbar } from '../../navbar/navbar';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile',
@@ -10,20 +11,45 @@ import { Navbar } from '../../navbar/navbar';
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
-export class Profile {
-  user = {
-    name: 'Jane Doe',
-    role: 'Customer',
-    email: 'jane.doe@example.com',
-    phone: '+91 98765 43210',
-    location: 'Bangalore, India',
-    joined: 'March 2024',
-    about: 'I love using FixiePixie for booking trusted home services quickly and reliably.',
-  };
+export class Profile implements OnInit {
+  private http = inject(HttpClient);
+  private cdr = inject(ChangeDetectorRef);
+  private platformId = inject(PLATFORM_ID);
 
+  user: any = null; // Will hold the API response
+  userId: string | null = null;
+  
+  // These could also come from an API later
   stats = [
     { label: 'Completed Bookings', value: '18' },
     { label: 'Upcoming Services', value: '2' },
     { label: 'Saved Addresses', value: '3' },
   ];
+
+ ngOnInit(): void {
+    // Only run this if we are in the browser
+    if (isPlatformBrowser(this.platformId)) {
+      this.userId = localStorage.getItem('userId');
+      if (this.userId) {
+        this.getUserProfile();
+      }
+    }
+  }
+
+  getUserProfile() {
+    this.http.get<any>(`http://localhost:8081/api/users/${this.userId}`)
+      .subscribe({
+        next: (res) => {
+          this.user = res.data; // Remember to use .data from your ApiResponse
+          this.cdr.detectChanges();
+        },
+        error: (err) => console.error('Error fetching profile:', err)
+      });
+  }
+
+  // Helper to get initials for the avatar (e.g., "Jane Doe" -> "JD")
+  getInitials(name: string): string {
+    if (!name) return '??';
+    return name.split(' ').map(n => n[0]).join('').toUpperCase();
+  }
 }

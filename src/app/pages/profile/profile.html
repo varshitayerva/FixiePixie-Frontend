@@ -1,30 +1,28 @@
 <app-navbar></app-navbar>
 
-<section class="profile-page">
+<div *ngIf="!user" class="loading-container">
+  <p>Loading profile...</p>
+</div>
+
+<section class="profile-page" *ngIf="user">
   <div class="profile-header">
     <div class="avatar-box">
-      <span>JD</span>
+      <span>{{ getInitials(user.name) }}</span>
     </div>
 
     <div class="profile-meta">
       <h1>{{ user.name }}</h1>
-      <p class="subtitle">{{ user.role }}</p>
-      <p class="about">{{ user.about }}</p>
+      <p class="subtitle">{{ user.role || 'Customer' }}</p>
+      <p class="about">{{ user.about || 'No bio provided yet.' }}</p>
     </div>
-
-    <!-- <div class="action-group">
-      <button class="primary-btn">Edit Profile</button>
-      <button class="secondary-btn">Manage Address</button>
-    </div> -->
   </div>
 
   <div class="profile-grid">
     <div class="info-card">
       <h2>Contact Information</h2>
       <div class="info-row"><span>Email</span><strong>{{ user.email }}</strong></div>
-      <div class="info-row"><span>Phone</span><strong>{{ user.phone }}</strong></div>
-      <div class="info-row"><span>Location</span><strong>{{ user.location }}</strong></div>
-      <div class="info-row"><span>Member Since</span><strong>{{ user.joined }}</strong></div>
+      <div class="info-row"><span>Phone</span><strong>{{ user.number || 'Not provided' }}</strong></div>
+      <div class="info-row"><span>Location</span><strong>{{ user.location || 'India' }}</strong></div>
     </div>
 
     <div class="stats-card">
@@ -40,8 +38,6 @@
     <div class="settings-card">
       <h2>Quick Actions</h2>
       <button class="action-btn">View Booking History</button>
-      <button class="action-btn">Payment Methods</button>
-      <!-- <button class="action-btn">Change Password</button> -->
     </div>
   </div>
 </section>

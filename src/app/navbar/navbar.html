@@ -77,11 +77,15 @@
       </div>
 
       <div class="user-icons">
-        <div class="cart-wrapper">
+        <!-- <div class="cart-wrapper">
           <span class="material-icons">shopping_bag</span>
           <span class="cart-badge">1</span>
-        </div>
-        <span class="material-icons profile-icon">account_circle</span>
+        </div> -->
+        <span routerLink="/profile" class="material-icons profile-icon">account_circle</span>
+      </div>
+
+      <div (click)="logout()" style="margin-top: 3px; cursor: pointer;">
+        <span style="color: white;" class="material-icons">logout</span>
       </div>
     </div>
   </div>

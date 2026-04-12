@@ -8,6 +8,7 @@ import { ProviderDashboard } from './pages/provider-dashboard/provider-dashboard
 import { PaymentPage } from './pages/payment/payment';
 import { BookingPage } from './pages/booking/booking';
 import { AddService } from './pages/add-service/add-service';
+import { CustomerOrderHistory } from './pages/customer-order-history/customer-order-history'
 import { Profile } from './pages/profile/profile';
 import { authGuard } from './auth-guard';
 
@@ -34,6 +35,7 @@ export const routes: Routes = [
   { path: 'payment', component: PaymentPage, canActivate: [authGuard] },
 
   {path:'profile', component:Profile, canActivate:[authGuard]},
+  {path:'customer-order-history',component:CustomerOrderHistory,canActivate:[authGuard]},
 
   // FALLBACK
   { path: '**', redirectTo: '' }

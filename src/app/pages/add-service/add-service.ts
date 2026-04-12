@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Navbar } from '../../navbar/navbar';
 import { Router } from '@angular/router';
@@ -12,18 +12,25 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   templateUrl: './add-service.html',
   styleUrl: './add-service.css',
 })
-export class AddService {
+export class AddService implements OnInit {
   private snackBar = inject(MatSnackBar);
   serviceName: string = '';
   price: number = 0;
   description: string = '';
   category: string = '';
 
+  userId!: string;
+
   constructor(
     private router: Router,
     private http: HttpClient
   ) {}
 
+  ngOnInit() {
+    this.userId = localStorage.getItem("userId") || '';
+  }
+
+  
   addService() {
 
     if (!this.serviceName || !this.price || !this.description || !this.category) {
@@ -35,7 +42,8 @@ export class AddService {
       serviceName: this.serviceName,   
       price: this.price,
       description: this.description,
-      category: this.category
+      category: this.category,
+      providerId: this.userId 
     };
 
     this.http.post('http://localhost:8081/api/services', payload)

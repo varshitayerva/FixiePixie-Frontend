@@ -58,7 +58,7 @@ export class Dashboard implements OnInit {
   }
 
   getServices() {
-    this.http.get<any[]>('http://localhost:8083/api/services')
+    this.http.get<any[]>('http://localhost:8081/api/services')
       .subscribe({
         next: (res) => {
           this.services = res;

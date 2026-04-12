@@ -6,16 +6,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { Navbar } from '../../navbar/navbar';
 
+// UPDATED: Matches your new Backend Response
 export interface BookingResponseDTO {
   id: number;
-  date: string;
-  serviceId: number;
-  status: string;
   userId: number;
+  serviceId: number;
+  date: string;
+  status: string;
   timeSlot: string;
-
-  userName: string,
-  userNumber:string
+  serviceName: string;      // From Provider Service
+  customerName: string;     // From User Service
+  customerNumber: string;   // From User Service
+  customerAddress: string;  // From User Service
 }
 
 @Component({
@@ -29,88 +31,71 @@ export class BookingHistory implements OnInit {
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
   private cdr = inject(ChangeDetectorRef);
-  // Matches your @GetMapping("/{userId}") and @DeleteMapping("/{id}") on port 2003
-  private readonly BOOKING_API = 'http://localhost:8081/bookings';
 
-  // Add 'userName' and 'userNumber' to the array
-displayedColumns: string[] = ['userName', 'userNumber', 'serviceId', 'date', 'time_slot', 'status', 'action'];
+  // UPDATED: Points to your new Provider View endpoint
+  private readonly BOOKING_API = 'http://localhost:8081/bookings/provider-view';
+
+  // UPDATED: Columns to show Customer info and Service Name
+  displayedColumns: string[] = ['customerName', 'serviceName', 'date', 'status', 'action'];
   bookings: BookingResponseDTO[] = [];
   loading = false;
   error: string | null = null;
 
-  private userId: string | null = null;
-
-  readonly serviceMap: Record<number, { name: string; icon: string }> = {
-    1: { name: 'Electrician',  icon: 'electrical_services' },
-    2: { name: 'Plumber',      icon: 'plumbing' },
-    3: { name: 'Cleaning',     icon: 'cleaning_services' },
-    4: { name: 'Carpenter',    icon: 'carpenter' },
-    5: { name: 'Painter',      icon: 'format_paint' },
-  };
+  private providerId: string | null = null;
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.userId = localStorage.getItem('userId');
-      if (this.userId) {
-        this.fetchUserBookings();
+      // In your case, the logged-in Admin's ID is the providerId
+      this.providerId = localStorage.getItem('userId'); 
+      if (this.providerId) {
+        this.fetchProviderBookings();
       } else {
-        this.error = 'User not logged in.';
+        this.error = 'Provider not logged in.';
       }
     }
   }
 
-  // GET /bookings/{userId}
-fetchUserBookings(): void {
+  fetchProviderBookings(): void {
     this.loading = true;
-    this.http.get<BookingResponseDTO[]>(`${this.BOOKING_API}/${this.userId}`)
+    this.http.get<BookingResponseDTO[]>(`${this.BOOKING_API}/${this.providerId}`)
       .subscribe({
         next: (data) => {
-          this.bookings = data;
+          this.bookings = data || [];
+          console.log("Provider Dashboard Data:", data);
           this.loading = false;
-          this.cdr.detectChanges(); // 2. Manually trigger a check
+          this.cdr.detectChanges();
         },
         error: (err) => {
+          console.error('Fetch failed:', err);
           this.loading = false;
-          this.cdr.detectChanges(); // 3. Also here to clear the loading state
+          this.error = "Could not load bookings.";
+          this.cdr.detectChanges();
         }
       });
   }
-  // DELETE /bookings/{id}  — shown only for PENDING_PAYMENT rows (matches your backend guard)
-  cancelBooking(id: number): void {
-    if (!confirm('Are you sure you want to cancel this booking?')) return;
 
-    this.http.delete(`${this.BOOKING_API}/${id}`, { responseType: 'text' })
+  // Same logic, but updated to call the specific ID
+  cancelBooking(id: number): void {
+    if (!confirm('Are you sure you want to cancel this customer booking?')) return;
+
+    // Assuming DELETE /api/bookings/{id} still exists
+    this.http.delete(`http://localhost:8081/bookings/${id}`, { responseType: 'text' })
       .subscribe({
-        next: () => this.fetchUserBookings(),
+        next: () => this.fetchProviderBookings(),
         error: (err) => console.error('Cancel failed:', err)
       });
   }
 
-  serviceName(serviceId: number): string {
-    return this.serviceMap[serviceId]?.name ?? `Service #${serviceId}`;
-  }
-
-  serviceIcon(serviceId: number): string {
-    return this.serviceMap[serviceId]?.icon ?? 'build';
-  }
-
   statusClass(status: string): string {
     const map: Record<string, string> = {
-      CONFIRMED:       'confirmed',
-      PENDING:         'pending',
+      CONFIRMED: 'confirmed',
       PENDING_PAYMENT: 'pending-payment',
-      CANCELLED:       'cancelled',
+      CANCELLED: 'cancelled',
     };
     return map[status?.toUpperCase()] ?? 'pending';
   }
 
   statusLabel(status: string): string {
-    const map: Record<string, string> = {
-      PENDING_PAYMENT: 'Pending Payment',
-      CONFIRMED:       'Confirmed',
-      PENDING:         'Pending',
-      CANCELLED:       'Cancelled',
-    };
-    return map[status?.toUpperCase()] ?? status;
+    return status?.replace('_', ' ') || status;
   }
 }

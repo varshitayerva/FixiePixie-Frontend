@@ -16,10 +16,10 @@ export class Profile implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private platformId = inject(PLATFORM_ID);
 
-  user: any = null; // Will hold the API response
+  user: any = null; 
   userId: string | null = null;
+  role:string = '';
   
-  // These could also come from an API later
   stats = [
     { label: 'Completed Bookings', value: '18' },
     { label: 'Upcoming Services', value: '2' },
@@ -27,7 +27,6 @@ export class Profile implements OnInit {
   ];
 
  ngOnInit(): void {
-    // Only run this if we are in the browser
     if (isPlatformBrowser(this.platformId)) {
       this.userId = localStorage.getItem('userId');
       if (this.userId) {
@@ -40,14 +39,14 @@ export class Profile implements OnInit {
     this.http.get<any>(`http://localhost:8081/api/users/${this.userId}`)
       .subscribe({
         next: (res) => {
-          this.user = res.data; // Remember to use .data from your ApiResponse
+          this.user = res.data; 
+          this.role = this.user.role;
           this.cdr.detectChanges();
         },
         error: (err) => console.error('Error fetching profile:', err)
       });
   }
 
-  // Helper to get initials for the avatar (e.g., "Jane Doe" -> "JD")
   getInitials(name: string): string {
     if (!name) return '??';
     return name.split(' ').map(n => n[0]).join('').toUpperCase();

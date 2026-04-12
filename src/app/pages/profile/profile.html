@@ -37,7 +37,9 @@
 
     <div class="settings-card">
       <h2>Quick Actions</h2>
-      <button class="action-btn">View Booking History</button>
+      <button routerLink="/customer-order-history" class="action-btn" *ngIf="role !== 'ROLE_ADMIN'">
+        Booking History
+      </button>
     </div>
   </div>
 </section>

@@ -1,25 +1,25 @@
 import { Component, OnInit, Inject, PLATFORM_ID, inject } from '@angular/core';
 import { Navbar } from '../../navbar/navbar';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http'; // 1. Import
+import { HttpClient } from '@angular/common/http';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-payment',
   standalone: true,
-  imports: [Navbar, CommonModule], // 2. Add HttpClientModule
+  imports: [Navbar, CommonModule],
   templateUrl: './payment.html',
   styleUrl: './payment.css',
 })
 export class PaymentPage implements OnInit {
   private snackBar = inject(MatSnackBar);
   bookingDetails: any;
-  isProcessing: boolean = false; // To prevent multiple calls during hover
+  isProcessing: boolean = false;
 
   constructor(
     private router: Router,
-    private http: HttpClient, // 3. Inject HttpClient
+    private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -31,26 +31,21 @@ export class PaymentPage implements OnInit {
   }
 
   onPaymentHover() {
-    // Prevent multiple requests if the user hovers back and forth
     if (this.isProcessing) return;
     this.isProcessing = true;
 
-    // 4. Prepare the PaymentDTO based on your Backend class
     const paymentData = {
-      bookingId: this.bookingDetails.bookingId, // Passed from BookingPage
+      bookingId: this.bookingDetails.bookingId, 
       amount: this.bookingDetails.price,
-      paymentMethod: 'UPI' // Default for QR code
+      paymentMethod: 'UPI', 
+      status:'SUCCESS'
     };
 
-    console.log('Processing Payment Request:', paymentData);
-
-    // 5. Send POST request to your PaymentMicroservice
-    this.http.post('http://localhost:8081/process', paymentData)
+    this.http.post('http://localhost:8081/payment/process', paymentData)
       .subscribe({
         next: (res) => {
           console.log('Payment stored successfully:', res);
           
-          // Wait for visual effect before redirecting
           setTimeout(() => {
             this.snackBar.open("Payment Successful! ✅ Booking Confirmed.", 'Close', {duration: 3000});
             this.router.navigate(['/customer-dashboard']);

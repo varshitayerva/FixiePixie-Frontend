@@ -1,23 +1,27 @@
 <app-navbar></app-navbar>
-
 <div class="split-container">
   <div class="left-panel">
-    <div class="sticky-card">
-      <p class="label-caps">Selected Service</p>
-      <h1 class="display-name">{{selectedService?.serviceName}}</h1>
-      <p class="service-desc">{{selectedService?.description}}</p>
-      
-      <div class="price-tag">
-        <span class="currency">₹</span>
-        <span class="amount">{{selectedService?.price}}</span>
-      </div>
-      
-      <div class="category-badge">
-        <span class="material-icons">verified</span>
-        {{selectedService?.category}}
+    <div class="hero-bg-accent"></div>
+    <div class="sticky-card-wrapper">
+      <div class="glass-card">
+        <p class="label-caps">Service</p>
+        <h1 class="display-name">{{selectedService?.serviceName}}</h1>
+        <p class="service-desc">{{selectedService?.description}}</p>
+        
+        <div class="meta-info">
+          <div class="price-tag">
+            <span class="currency">₹</span>
+            <span class="amount">{{selectedService?.price}}</span>
+          </div>
+          
+          <div class="category-badge">
+            <span class="material-icons">verified</span>
+            {{selectedService?.category}}
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </div> 
 
   <div class="right-panel">
     <div class="action-card">
